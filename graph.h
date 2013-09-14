@@ -3,7 +3,8 @@
 #include <map>
 #include <set>
 #include <memory>
-
+#include <stack>
+#include <vector>
 template <typename T>
 class Vertex {
 public:
@@ -34,7 +35,7 @@ public:
         return V.insert(make_pair(name,vtx)).first;
     }
     void rem_vertex(const T && name){
-        V.erase(name); // разрушится ли указатель?
+        V.erase(name);
         return;
     }
     void add_edge(const T && name_start, const T&& name_finish, int weight){
@@ -63,10 +64,44 @@ public:
             if (itr_f == V.end()){
                //кинуть исключение
             } else {
-                itr_s->list.find(itr_f);
+                itr_s->list.erase(itr_f);
             }
         }
+        return;
     }
+    void print () const {
+        std::cout<<"name_start - name_finish : weight\n";
+        typename std::map<T, std::shared_ptr <Vertex <T> > >::const_iterator itr;
+        for (itr = V.cbegin(); itr != V.cend();++itr) {
+            typename std::map<std::weak_ptr<Vertex<T> >, int >::const_iterator itr_list;
+            std::cout<< itr-> first<<std::endl;
+            for (itr_list = itr->second->list.cbegin(); itr_list != itr->second->list.cend();++itr_list){
+                std::cout <<itr-> first << " - " << (itr_list->first).lock()->name << " : "<<itr_list->second<< std::endl;
+            }
+        }
+        return;
+    }
+
+ /*   std::vector <std::set<T> > Tarjan() const{
+        std::map<T, int> color_map;
+        std::stack<std::map<T, std::shared_ptr<Vertex<T> > >::iterator > DFSstack;
+        std::vector<T> ALGOstack;
+        std::vector<std::pair<int, int> > low_id;
+        int current_index = 0;
+        DFSstack.push((*V.cbegin()));
+        while (!DFSstack.empty()) {
+            DFSstack.push(DFSstack.top()->second->list.next);
+            T current = DFSstack.top()->name;
+            std::pair<std::map<T, int>, bool> p;
+            p = color_map.insert(std::make_pair<T, int>(name, 1));
+            if (p.second = false) {// если серая
+                p.first->second += 1;
+            }
+
+        }
+
+
+    }*/
 
 
 };

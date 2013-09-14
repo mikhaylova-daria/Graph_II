@@ -8,12 +8,13 @@ int main()
     A.add_vertex("A");
     A.add_vertex("jfk");
     std::string s("f");
+    A.print();
     A.add_vertex(std::move(s));
     A.rem_vertex(std::move(s));
     A.rem_vertex(std::move(s));
-     cout << "Hello" << endl;
+    A.print();
     A.add_edge("A", "f", 67);
-    cout << "Hello World!" << endl;
+    A.print();
     return 0;
 }
 
